@@ -30,3 +30,4 @@ describe DoubleDog::User do
     end
   end
 end
+

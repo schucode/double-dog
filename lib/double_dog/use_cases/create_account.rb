@@ -1,5 +1,10 @@
+require_relative 'check_this.rb'
+require_relative 'check_admin.rb'
+
 module DoubleDog
-  class CreateAccount
+  class CreateAccount < CheckThis
+
+    include CheckAdmin
 
     def run(params)
       return failure(:not_admin) unless admin_session?(params[:session_id])
@@ -10,11 +15,6 @@ module DoubleDog
       return success(:user => user)
     end
 
-    def admin_session?(session_id)
-      user = DoubleDog.db.get_user_by_session_id(session_id)
-      user && user.admin?
-    end
-
     def valid_username?(username)
       username != nil && username.length >= 3
     end
@@ -23,14 +23,5 @@ module DoubleDog
       password != nil && password.length >= 3
     end
 
-  private
-
-    def failure(error_name)
-      return :success? => false, :error => error_name
-    end
-
-    def success(data)
-      return data.merge(:success? => true)
-    end
   end
 end

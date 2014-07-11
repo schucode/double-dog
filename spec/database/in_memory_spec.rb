@@ -3,7 +3,7 @@ require 'spec_helper'
 describe DoubleDog::Database::InMemory do
   let(:db) { described_class.new }
 
-  it "creates a user" do
+  it "creates a user" do # DUP
     user = db.create_user(:username => 'alice', :password => 'pass1')
     expect(user.id).to_not be_nil
     expect(user.username).to eq 'alice'
@@ -19,19 +19,19 @@ describe DoubleDog::Database::InMemory do
     expect(user.admin?).to eq true
   end
 
-  it "retrieves a user" do
+  it "retrieves a user" do # DUP
     user = db.create_user(:username => 'bob', :password => 'pass2')
     retrieved_user = db.get_user(user.id)
     expect(retrieved_user.username).to eq 'bob'
     expect(retrieved_user.has_password? 'pass2').to eq true
   end
 
-  it "creates a session and returns its id" do
+  it "creates a session and returns its id" do # AND
     session_id = db.create_session(:user_id => 8)
     expect(session_id).to_not be_a Hash
   end
 
-  it "retrieves a user by username" do
+  it "retrieves a user by username" do # DUP
     user = db.create_user(:username => 'pim', :password => 'cookies')
     retrieved_user = db.get_user_by_username(user.username)
 
@@ -39,7 +39,7 @@ describe DoubleDog::Database::InMemory do
     expect(retrieved_user.has_password? 'cookies').to eq true
   end
 
-  it "retrieves a user by session id" do
+  it "retrieves a user by session id" do # DUP
     user = db.create_user(:username => 'sally', :password => 'seashells')
     session_id = db.create_session(:user_id => user.id)
 
@@ -57,7 +57,7 @@ describe DoubleDog::Database::InMemory do
     expect(item.price).to eq 5
   end
 
-  it "retrieves an item" do
+  it "retrieves an item" do # DUP with grab ALL?
     item = db.create_item(:name => 'hot dog', :price => 5)
 
     retrieved_item = db.get_item(item.id)
@@ -66,7 +66,7 @@ describe DoubleDog::Database::InMemory do
     expect(retrieved_item.price).to eq 5
   end
 
-  it "grabs all items" do
+  it "grabs all items" do # DUP with get an?
     db.create_item(:name => 'fries', :price => 3)
     db.create_item(:name => 'pickle', :price => 4)
     db.create_item(:name => 'potato', :price => 8)
@@ -92,7 +92,7 @@ describe DoubleDog::Database::InMemory do
     expect(order.employee_id).to eq(emp.id)
   end
 
-  it "retrieves an order" do
+  it "retrieves an order" do # DUP with all?
     item_1 = db.create_item(:name => 'fries', :price => 3)
     item_2 = db.create_item(:name => 'pickle', :price => 4)
     item_3 = db.create_item(:name => 'potato', :price => 8)
@@ -105,7 +105,7 @@ describe DoubleDog::Database::InMemory do
     expect(retrieved_order.items).to include(item_1, item_2, item_3)
   end
 
-  it "grabs all orders" do
+  it "grabs all orders" do # DUP with an? 
     item_1 = db.create_item(:name => 'fries', :price => 3)
     item_2 = db.create_item(:name => 'pickle', :price => 4)
     item_3 = db.create_item(:name => 'potato', :price => 8)

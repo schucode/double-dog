@@ -1,5 +1,11 @@
+require_relative 'check_this.rb'
+require_relative 'check_admin.rb'
+
 module DoubleDog
-  class SeeAllOrders
+  class SeeAllOrders < CheckThis
+
+    include CheckAdmin
+
     def run(params)
       return failure(:not_admin) unless admin_session?(params[:admin_session])
 
@@ -7,19 +13,5 @@ module DoubleDog
       return success(orders: orders)
     end
 
-    def admin_session?(session_id)
-      user = DoubleDog.db.get_user_by_session_id(session_id)
-      user && user.admin?
-    end
-
-  private
-
-    def failure(error_name)
-      return :success? => false, :error => error_name
-    end
-
-    def success(data)
-      return data.merge(:success? => true)
-    end
   end
 end

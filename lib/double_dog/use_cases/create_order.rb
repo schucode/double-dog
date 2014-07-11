@@ -1,5 +1,9 @@
+require_relative 'check_this.rb'
+require_relative 'check_admin.rb'
+
 module DoubleDog
-  class CreateOrder
+  class CreateOrder < CheckThis
+
     def run(params)
       user = DoubleDog.db.get_user_by_session_id(params[:session_id])
       return failure(:invalid_session) if user.nil?
@@ -13,14 +17,5 @@ module DoubleDog
       items != nil && items.count >= 1
     end
 
-  private
-
-    def failure(error_name)
-      return :success? => false, :error => error_name
-    end
-
-    def success(data)
-      return data.merge(:success? => true)
-    end
   end
 end

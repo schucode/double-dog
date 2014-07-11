@@ -18,3 +18,4 @@ require_relative 'double_dog/use_cases/sign_in.rb'
 require_relative 'double_dog/use_cases/see_all_orders.rb'
 require_relative 'double_dog/use_cases/create_order.rb'
 
+require_relative 'double_dog/use_cases/check_this.rb'
